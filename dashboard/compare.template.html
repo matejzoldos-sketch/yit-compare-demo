@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Porovnanie projektov | Green Atrium vs NUPPU</title>
+  <title>Marketing Intelligence Radar</title>
   <style>
     :root {
       --bg: #0f1419;
@@ -358,8 +358,8 @@
 </head>
 <body>
   <header>
-    <h1>Porovnanie developerských projektov</h1>
-    <p id="meta-line">Porovnanie developerských projektov</p>
+    <h1>Marketing Intelligence Radar</h1>
+    <p id="meta-line">Ponuka bytov · Meta Ad Library · insighty NUPPU</p>
   </header>
   <nav class="tabs" role="tablist">
     <button type="button" class="active" data-tab="overview">Prehľad projektov</button>
@@ -537,6 +537,9 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
     const DATA = /*__DATA__*/;
+
+    const APP_TITLE = "Marketing Intelligence Radar";
+    const APP_SUBTITLE = "Ponuka bytov · Meta Ad Library · insighty NUPPU";
 
     const STATUS_LABELS = {
       free: "Voľný",
@@ -837,7 +840,7 @@
       );
       const generated = DATA.generated_at || new Date().toISOString();
       const lines = [
-        "# Jednotky — porovnanie projektov",
+        `# Jednotky — ${APP_TITLE}`,
         "",
         `- Vygenerované: ${generated}`,
         `- ${unitsFilterSummary()}`,
@@ -1325,7 +1328,7 @@
       const ma = DATA.meta_ads;
       if (!ma) return "";
       const lines = [
-        "# Meta Ad Library — prehľad konkurencie",
+        `# Meta Ad Library — ${APP_TITLE}`,
         "",
         `Zdroj: ${ma.source || "Meta Ad Library"} · ${ma.country || "SK"} · ${ma.active_status || "active"}`,
         `Zachytené: ${ma.captured_at || "—"} · ${ma.method || ""}`,
@@ -1443,7 +1446,7 @@
 
     if (DATA.projects.length) {
       document.getElementById("meta-line").textContent =
-        DATA.projects.map((p) => p.name).join(" · ");
+        `${APP_SUBTITLE} · ${DATA.projects.map((p) => p.name).join(" · ")}`;
     }
     if (DATA.generated_at) {
       document.getElementById("meta-line").textContent += ` · Aktualizované: ${DATA.generated_at}`;

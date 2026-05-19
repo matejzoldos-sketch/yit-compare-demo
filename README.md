@@ -1,4 +1,6 @@
-# Porovnanie developerských projektov
+# Marketing Intelligence Radar
+
+Porovnanie developerských projektov (byty, ceny, Meta Ad Library).
 
 Lokálny nástroj na zber, normalizáciu a porovnanie ponuky bytov z verejných API:
 
