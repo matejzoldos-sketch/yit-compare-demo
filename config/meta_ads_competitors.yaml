@@ -1,0 +1,94 @@
+# Konkurenti z demo dashboardu (yit-compare-demo.vercel.app)
+# Manuálny export z Meta Ad Library → data/raw/meta_ads/manual/
+#
+# Po prvom otvorení v Ad Library overte správnu stránku (Page) a doplňte page_id
+# (číslo z URL po kliknutí „Zobraziť všetky reklamy“ na stránke).
+
+demo_url: https://yit-compare-demo.vercel.app/
+
+# Nastavenia vyhľadávania v Ad Library UI (odporúčané pre všetky odkazy nižšie)
+library_defaults:
+  country: SK          # Slovensko — EÚ, vidíte komerčné reklamy za posledný rok
+  active_status: ALL   # ACTIVE len bežiace; ALL aj ukončené
+  ad_type: all
+  media_type: all
+
+competitors:
+  - slug: nuppu
+    project: NUPPU
+    developer: YIT Slovakia
+    focus: true
+    website: https://www.yit.sk/predaj-bytov/bratislava/ruzinov/nuppu
+    facebook_pages:
+      - name: YIT Slovakia
+        username: null   # doplňte po overení, napr. yitslovakia
+        page_id: null
+    search_queries:
+      - YIT Slovakia
+      - YIT NUPPU
+      - NUPPU Ružinov
+    ad_library_keyword_urls:
+      - https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=SK&media_type=all&q=YIT%20Slovakia&search_type=keyword_unordered
+      - https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=SK&media_type=all&q=NUPPU&search_type=keyword_unordered
+
+  - slug: green_atrium
+    project: Green Atrium
+    developer: Haberl
+    focus: false
+    website: https://www.bytygreenatrium.sk
+    facebook_pages:
+      - name: Green Atrium / Haberl
+        username: null
+        page_id: null
+    search_queries:
+      - Green Atrium
+      - byty Green Atrium
+      - Haberl Ružinov
+    ad_library_keyword_urls:
+      - https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=SK&media_type=all&q=Green%20Atrium&search_type=keyword_unordered
+      - https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=SK&media_type=all&q=bytygreenatrium&search_type=keyword_unordered
+
+  - slug: bory
+    project: Bory
+    developer: Penta Real Estate
+    focus: false
+    website: https://borybyvanie.sk/byty
+    facebook_pages:
+      - name: Bory Bývanie
+        username: Borybyvanie
+        page_id: null   # po otvorení stránky v Ad Library
+    search_queries:
+      - Bory Bývanie
+      - Bory byvanie
+      - borybyvanie
+    ad_library_keyword_urls:
+      - https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=SK&media_type=all&q=Bory%20B%C3%BDvanie&search_type=keyword_unordered
+    ad_library_page_hint: https://www.facebook.com/Borybyvanie
+
+  - slug: slnecnice_viladomy
+    project: Slnečnice Nové viladomy
+    developer: CRESCO Real Estate
+    focus: false
+    website: https://www.slnecnice.sk/projekty/nove-viladomy
+    facebook_pages:
+      - name: CRESCO Real Estate SK
+        username: crescorealestatesk
+        page_id: null
+      - name: Slnečnice (ak existuje samostatná stránka)
+        username: null
+        page_id: null
+    search_queries:
+      - Slnečnice viladomy
+      - CRESCO Slnečnice
+      - Slnečnice Nad mestom
+    ad_library_keyword_urls:
+      - https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=SK&media_type=all&q=Slne%C4%8Dnice&search_type=keyword_unordered
+      - https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=SK&media_type=all&q=CRESCO%20Slne%C4%8Dnice&search_type=keyword_unordered
+    ad_library_page_hint: https://www.facebook.com/crescorealestatesk
+
+# Voliteľne: materské značky (menej presné, ale zachytia brand kampane)
+parent_brands:
+  - slug: penta_re
+    name: Penta Real Estate
+    ad_library_keyword_urls:
+      - https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=SK&media_type=all&q=Penta%20Real%20Estate&search_type=keyword_unordered

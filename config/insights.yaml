@@ -1,0 +1,40 @@
+focus_project: nuppu
+focus_name: NUPPU
+
+competitors:
+  - green_atrium
+  - bory
+  - slnecnice_viladomy
+
+# Minimálny počet jednotiek NUPPU v segmente na porovnanie €/m²
+min_focus_units_for_ppm: 3
+# Minimálny počet jednotiek konkurenta v segmente (inak insight negenerovať)
+min_competitor_units: 5
+# Minimálny počet na porovnanie počtu ponuky (oba projekty)
+min_units_for_supply: 2
+# Celková dostupnosť — min. jednotiek konkurenta v celej ponuke (všetky segmenty)
+min_total_competitor_units: 5
+# Celková dostupnosť — min. absolútny rozdiel počtu jednotiek (NUPPU vs konkurent)
+total_availability_min_delta: 10
+# Celková dostupnosť — pomer na vygenerovanie insightu (1.15 = o 15 % viac)
+total_availability_ratio: 1.15
+# Percentuálny rozdiel mediánu €/m² na vygenerovanie insightu
+ppm_threshold_pct: 3.0
+
+segments:
+  - id: "1"
+    label: "1–1,5 izby"
+    room_min: 1
+    room_max: 1.5
+  - id: "2"
+    label: "2 izby"
+    room_min: 2
+    room_max: 2.5
+  - id: "3"
+    label: "3 izby"
+    room_min: 3
+    room_max: 3
+  - id: "4"
+    label: "4+ izby"
+    room_min: 4
+    room_max: 99

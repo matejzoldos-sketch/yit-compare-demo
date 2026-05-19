@@ -1,0 +1,66 @@
+projects:
+  green_atrium:
+    address: Trnavská cesta 68, Bratislava-Ružinov
+    city: Bratislava
+    district: Ružinov
+    delivery_note: null
+    contact_phone: "+421 911 525 496"
+    contact_email: info@bytygreenatrium.sk
+    financing:
+      - Flexibilné financovanie (benefity v cene)
+    amenities:
+      - Veľkometrážne balkóny
+      - Flexibilné dispozície (3→4 izby)
+      - Podlahové kúrenie v kúpeľni
+      - Stropné chladenie
+      - Kobka s rekuperáciou (vybrané byty)
+    notes: "90 % bytov predaných podľa webu developera."
+
+  nuppu:
+    address: Mlynské nivy / Ružinov, Bratislava
+    city: Bratislava
+    district: Ružinov
+    delivery_note: Jar 2027 (podľa webu YIT)
+    contact_phone: "0800 800 474"
+    contact_email: byty@yit.sk
+    financing:
+      - Vlastné bývanie 10/90
+      - Družstevné bývanie (Magnolia 5)
+    amenities:
+      - Ikonický zelený dvor
+      - Podzemné parkovanie
+      - Škôlka v areáli
+      - Zastávka MHD
+      - Susedské klubovne
+      - Balíkobox
+      - Elektronabíjacie stanice
+    notes: "Projekt v niekoľkých etapách (Magnolia, Asteri, …)."
+
+  bory:
+    address: Bratislava – mestská časť Petržalka (lokalita Bory)
+    city: Bratislava
+    district: Petržalka
+    delivery_note: Podľa etapy (bory2–bory5) – pozri building_stage
+    contact_phone: null
+    contact_email: null
+    financing: []
+    amenities:
+      - Nová štvrť s občianskou vybavenosťou (Bory Mall, školy)
+      - Cyklotrasy a zeleň
+      - Vzorový byt a VR prehliadky (vybrané jednotky)
+    notes: "API vracia celý projekt vrátane predaných; predvolene porovnávajte len voľné byty."
+
+  slnecnice_viladomy:
+    address: Slnečnice, Bratislava-Petržalka (viladomy K1–K4)
+    city: Bratislava
+    district: Petržalka
+    delivery_note: Q4/2028 (podľa API – vo výstavbe)
+    contact_phone: "+421 905 210 000"
+    contact_email: slnecnice@slnecnice.sk
+    financing: []
+    amenities:
+      - Komunitné bývanie v zeleni
+      - Balkóny, loggie a strešné terasy
+      - Vnútrobloky a vybavenosť Slnečníc na pešo
+      - MHD do centra do ~15 min
+    notes: "API vracia celý projekt vrátane predaných; Y=voľná, P=predrezervovaná, S=predaná."

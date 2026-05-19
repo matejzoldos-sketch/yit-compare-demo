@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Porovnanie projektov | Green Atrium vs NUPPU</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --surface2: #243044;
+      --text: #e8edf4;
+      --muted: #8b9cb3;
+      --accent: #3d9cf5;
+      --green: #3ecf8e;
+      --amber: #f0b429;
+      --red: #f07178;
+      --border: #2d3a4f;
+      --radius: 10px;
+      --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    header h1 { margin: 0 0 0.25rem; font-size: 1.35rem; font-weight: 600; }
+    header p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+    nav.tabs {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    nav.tabs button {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font: inherit;
+    }
+    nav.tabs button.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    main { padding: 1.5rem; max-width: 1400px; margin: 0 auto; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+    .card h2 { margin: 0 0 0.75rem; font-size: 1.1rem; }
+    .card h3 { margin: 1rem 0 0.5rem; font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+    .stat { background: var(--surface2); border-radius: 8px; padding: 0.6rem 0.75rem; }
+    .stat label { display: block; font-size: 0.72rem; color: var(--muted); }
+    .stat strong { font-size: 1rem; }
+    ul.features { margin: 0; padding-left: 1.1rem; color: var(--muted); font-size: 0.9rem; }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      align-items: flex-end;
+    }
+    .insights-toolbar {
+      justify-content: space-between;
+    }
+    .filters label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.75rem; color: var(--muted); }
+    .filters select, .filters input {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      font: inherit;
+      min-width: 120px;
+    }
+    .units-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .btn-secondary {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.45rem 0.9rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font: inherit;
+      white-space: nowrap;
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    th, td {
+      padding: 0.55rem 0.65rem;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    th { color: var(--muted); font-weight: 500; position: sticky; top: 0; background: var(--surface); }
+    th.sortable {
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+    th.sortable:hover { color: var(--text); }
+    th.sortable::after {
+      content: " ⇅";
+      font-size: 0.7em;
+      opacity: 0.35;
+    }
+    th.sortable.asc::after { content: " ▲"; opacity: 1; color: var(--accent); }
+    th.sortable.desc::after { content: " ▼"; opacity: 1; color: var(--accent); }
+    tr:hover td { background: var(--surface2); }
+    tr.clickable { cursor: pointer; }
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .badge.free { background: rgba(62, 207, 142, 0.2); color: var(--green); }
+    .badge.reserved { background: rgba(240, 180, 41, 0.2); color: var(--amber); }
+    .badge.sold { background: rgba(240, 113, 120, 0.2); color: var(--red); }
+    .badge.in_preparation { background: rgba(139, 156, 179, 0.2); color: var(--muted); }
+    .badge.unknown { background: var(--surface2); color: var(--muted); }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 720px;
+      width: 100%;
+      max-height: 85vh;
+      overflow: auto;
+      padding: 1.25rem;
+    }
+    .modal header { display: flex; justify-content: space-between; align-items: flex-start; padding: 0 0 1rem; border: none; background: none; }
+    .modal header button { background: none; border: none; color: var(--muted); font-size: 1.5rem; cursor: pointer; }
+    .attr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem 1rem; font-size: 0.8rem; }
+    .attr-grid dt { color: var(--muted); }
+    .attr-grid dd { margin: 0; word-break: break-word; }
+    @media (max-width: 700px) {
+      .attr-grid { grid-template-columns: 1fr; }
+    }
+    a { color: var(--accent); }
+    .muted { color: var(--muted); font-size: 0.85rem; }
+    .insight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.25rem; }
+    .insight-card {
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .insight-card.opportunity { border-left: 4px solid var(--green); }
+    .insight-card.risk { border-left: 4px solid var(--amber); }
+    .insight-card h3 { margin: 0 0 0.5rem; font-size: 0.95rem; }
+    .insight-card p { margin: 0; font-size: 0.85rem; color: var(--muted); }
+    .insight-card .tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.35rem;
+      font-weight: 600;
+    }
+    .insight-card.opportunity .tag { color: var(--green); }
+    .insight-card.risk .tag { color: var(--amber); }
+    .chart-block { margin: 1rem 0 1.25rem; }
+    .chart-row {
+      display: grid;
+      grid-template-columns: 120px 1fr minmax(88px, auto);
+      gap: 0.5rem 0.75rem;
+      align-items: center;
+      margin-bottom: 0.45rem;
+      font-size: 0.82rem;
+    }
+    .chart-row .chart-value {
+      text-align: right;
+      white-space: nowrap;
+    }
+    .insights-charts-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+    .insights-charts-stack h3 {
+      margin: 0 0 0.5rem;
+      font-size: 0.95rem;
+    }
+    .chart-row.focus .chart-label { color: var(--accent); font-weight: 600; }
+    .chart-bar-wrap {
+      height: 10px;
+      background: var(--surface2);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .chart-bar {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--muted);
+      min-width: 2px;
+    }
+    .chart-row.focus .chart-bar { background: var(--accent); }
+    .segment-matrix td, .segment-matrix th { font-size: 0.8rem; }
+    .segment-matrix .focus-col { color: var(--accent); font-weight: 600; }
+    .segment-matrix tr.segment-active td,
+    .segment-matrix tr.segment-active th { background: rgba(61, 156, 245, 0.12); }
+    .card-header-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .card-header-row h2 { margin: 0; }
+    .card-header-row label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .card-header-row select {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      font: inherit;
+      min-width: 140px;
+    }
+    .scatter-chart-wrap {
+      position: relative;
+      height: min(420px, 55vh);
+      width: 100%;
+    }
+    .meta-sov-chart { margin: 0.5rem 0 1rem; }
+    .meta-competitor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .meta-competitor-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+    }
+    .meta-competitor-card.focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(61, 156, 245, 0.25);
+    }
+    .meta-competitor-card h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .meta-ads-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(61, 156, 245, 0.15);
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .meta-competitor-card.focus .meta-ads-badge {
+      background: var(--accent);
+      color: #fff;
+    }
+    .meta-competitor-card .meta-angle {
+      margin: 0 0 0.6rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .meta-competitor-card ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .meta-competitor-card ul li { margin-bottom: 0.25rem; }
+    .meta-cluster-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.75rem;
+    }
+    .meta-cluster {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.85rem;
+    }
+    .meta-cluster strong { display: block; margin-bottom: 0.25rem; }
+    .meta-cluster span { color: var(--muted); font-size: 0.8rem; }
+    .meta-summary-list {
+      margin: 0;
+      padding-left: 1.15rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .meta-summary-list li { margin-bottom: 0.4rem; }
+    .meta-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Porovnanie developerských projektov</h1>
+    <p id="meta-line">Porovnanie developerských projektov</p>
+  </header>
+  <nav class="tabs" role="tablist">
+    <button type="button" class="active" data-tab="overview">Prehľad projektov</button>
+    <button type="button" data-tab="units">Prehľad bytov</button>
+    <button type="button" data-tab="insights">Insighty (NUPPU)</button>
+    <button type="button" data-tab="meta-ads">Meta reklamy</button>
+  </nav>
+  <main>
+    <section id="panel-overview" class="panel active">
+      <div class="grid-2" id="project-cards"></div>
+    </section>
+
+    <section id="panel-units" class="panel">
+      <div class="filters">
+        <label>Ponuka
+          <select id="f-offer-mode">
+            <option value="free" selected>Len voľné</option>
+            <option value="available">Voľné + rezervované</option>
+            <option value="all">Všetky stavy</option>
+          </select>
+        </label>
+        <label>Projekt
+          <select id="f-project"><option value="">Všetky</option></select>
+        </label>
+        <label>Izby (min)
+          <input type="number" id="f-rooms-min" min="0" step="1" placeholder="—" />
+        </label>
+        <label>Cena max (€)
+          <input type="number" id="f-price-max" min="0" step="1000" placeholder="—" />
+        </label>
+        <label>Plocha min (m²)
+          <input type="number" id="f-area-min" min="0" step="1" placeholder="—" />
+        </label>
+      </div>
+      <div class="units-toolbar">
+        <p class="muted" id="units-count" style="margin:0"></p>
+        <button type="button" class="btn-secondary" id="btn-download-md" title="Stiahnuť zobrazené riadky ako Markdown tabuľku">
+          Stiahnuť MD
+        </button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr id="units-thead-row">
+              <th class="sortable" data-sort="project_name">Projekt</th>
+              <th class="sortable" data-sort="unit_code">Kód</th>
+              <th class="sortable" data-sort="building_name">Etapa</th>
+              <th class="sortable" data-sort="rooms">Izby</th>
+              <th class="sortable" data-sort="area_interior_m2">m² (int.)</th>
+              <th class="sortable" data-sort="area_total_m2">m² (celkom)</th>
+              <th class="sortable" data-sort="price_total_eur">Cena</th>
+              <th class="sortable" data-sort="price_per_m2">€/m²</th>
+              <th class="sortable" data-sort="floor">Posch.</th>
+              <th class="sortable" data-sort="status">Stav</th>
+              <th class="sortable" data-sort="orientation">Orient.</th>
+            </tr>
+          </thead>
+          <tbody id="units-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="panel-insights" class="panel">
+      <div class="filters insights-toolbar" style="margin-bottom:0.75rem">
+        <label>Ponuka
+          <select id="f-offer-mode-insights">
+            <option value="free" selected>Len voľné</option>
+            <option value="available">Voľné + rezervované</option>
+            <option value="all">Všetky stavy</option>
+          </select>
+        </label>
+        <button type="button" class="btn-secondary" id="btn-download-insights-md" title="Stiahnuť insighty, segmenty a graf ako Markdown">
+          Stiahnuť MD
+        </button>
+      </div>
+      <div class="card insights-scatter-card">
+        <h2 style="margin:0 0 0.5rem">Ponuka: plocha × cena</h2>
+        <p class="muted" id="insights-scatter-caption" style="margin:0 0 1rem"></p>
+        <div class="scatter-chart-wrap">
+          <canvas id="insights-scatter" aria-label="Bodový graf interiérovej plochy a ceny podľa projektu"></canvas>
+        </div>
+      </div>
+      <p class="muted" id="insights-intro"></p>
+      <div class="grid-2">
+        <div>
+          <h2 class="muted" style="font-size:0.85rem;text-transform:uppercase;letter-spacing:0.04em">Príležitosti</h2>
+          <div id="insights-opportunities" class="insight-grid"></div>
+        </div>
+        <div>
+          <h2 class="muted" style="font-size:0.85rem;text-transform:uppercase;letter-spacing:0.04em">Riziká</h2>
+          <div id="insights-risks" class="insight-grid"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2 style="margin:0 0 1rem">Segmenty — prehľad</h2>
+        <div class="table-wrap">
+          <table class="segment-matrix" id="insights-matrix">
+            <thead></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card chart-block">
+        <div class="card-header-row">
+          <h2>Mediány v segmente</h2>
+          <label>Segment izieb
+            <select id="f-insights-segment"></select>
+          </label>
+        </div>
+        <p class="muted" id="insights-chart-caption" style="margin:0 0 1rem"></p>
+        <div class="insights-charts-stack">
+          <div>
+            <h3>Medián €/m²</h3>
+            <div id="insights-chart"></div>
+          </div>
+          <div>
+            <h3>Medián celková cena</h3>
+            <div id="insights-price-chart"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-meta-ads" class="panel">
+      <div class="meta-toolbar">
+        <p class="muted" id="meta-ads-intro" style="margin:0"></p>
+        <button type="button" class="btn-secondary" id="btn-download-meta-ads-md">Stiahnuť MD</button>
+      </div>
+      <div id="meta-ads-empty" class="card" style="display:none">
+        <p class="muted" style="margin:0">Údaje Meta Ad Library nie sú k dispozícii. Doplňte <code>config/meta_ads_insights.yaml</code> a spustite <code>python -m etl.build_dashboard</code>.</p>
+      </div>
+      <div id="meta-ads-content" style="display:none">
+        <div class="card">
+          <h2>Share of voice (aktívne reklamy, SK)</h2>
+          <p class="muted" id="meta-ads-sov-caption" style="margin:0 0 1rem"></p>
+          <div id="meta-sov-chart" class="meta-sov-chart" aria-label="Počet aktívnych reklám podľa konkurenta"></div>
+        </div>
+        <div class="meta-competitor-grid" id="meta-competitor-grid"></div>
+        <div class="card">
+          <h2>Trhové klastre (messaging)</h2>
+          <div class="meta-cluster-list" id="meta-cluster-list"></div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h2>Príležitosti pre NUPPU</h2>
+            <div id="meta-ads-opportunities" class="insight-grid"></div>
+          </div>
+          <div class="card">
+            <h2>Riziká pre NUPPU</h2>
+            <div id="meta-ads-risks" class="insight-grid"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Zhrnutie</h2>
+          <ul class="meta-summary-list" id="meta-ads-summary"></ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="modal-backdrop" id="modal">
+    <article class="modal">
+      <header>
+        <div>
+          <h2 id="modal-title" style="margin:0"></h2>
+          <p class="muted" id="modal-sub" style="margin:0.25rem 0 0"></p>
+        </div>
+        <button type="button" id="modal-close" aria-label="Zavrieť">&times;</button>
+      </header>
+      <dl class="attr-grid" id="modal-attrs"></dl>
+    </article>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+    const DATA = /*__DATA__*/;
+
+    const STATUS_LABELS = {
+      free: "Voľný",
+      reserved: "Rezervovaný",
+      sold: "Predaný",
+      in_preparation: "V príprave",
+      unknown: "Neznámy",
+    };
+
+    const STATUS_SORT_ORDER = {
+      free: 0,
+      reserved: 1,
+      in_preparation: 2,
+      sold: 3,
+      unknown: 4,
+    };
+
+    let tableSort = { key: "project_name", dir: "asc" };
+    let insightsScatterChart = null;
+
+    const PROJECT_SCATTER_COLORS = {
+      nuppu: "#3d9cf5",
+      green_atrium: "#3ecf8e",
+      bory: "#f0b429",
+      slnecnice_viladomy: "#c084fc",
+    };
+
+    const OFFER_LABELS = {
+      free: "voľné",
+      available: "voľné a rezervované",
+      all: "všetky stavy",
+    };
+
+    let offerModeSyncing = false;
+
+    function getOfferMode() {
+      const units = document.getElementById("f-offer-mode");
+      const insights = document.getElementById("f-offer-mode-insights");
+      return (units && units.value) || (insights && insights.value) || "free";
+    }
+
+    function setOfferMode(mode) {
+      if (offerModeSyncing) return;
+      offerModeSyncing = true;
+      const units = document.getElementById("f-offer-mode");
+      const insights = document.getElementById("f-offer-mode-insights");
+      if (units) units.value = mode;
+      if (insights) insights.value = mode;
+      offerModeSyncing = false;
+      onOfferModeChange();
+    }
+
+    function onOfferModeChange() {
+      renderOverview();
+      renderUnits();
+      renderInsights();
+    }
+
+    function matchesOfferMode(u) {
+      const mode = getOfferMode();
+      if (mode === "free") return u.status === "free";
+      if (mode === "available") return u.status === "free" || u.status === "reserved";
+      return true;
+    }
+
+    function unitsInOffer() {
+      return DATA.units.filter(matchesOfferMode);
+    }
+
+    function fmtEur(n) {
+      if (n == null || n === 0) return "—";
+      return new Intl.NumberFormat("sk-SK", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(n);
+    }
+    function fmtNum(n, d = 1) {
+      if (n == null) return "—";
+      return Number(n).toLocaleString("sk-SK", { maximumFractionDigits: d });
+    }
+    function badge(status) {
+      const label = STATUS_LABELS[status] || status;
+      return `<span class="badge ${status}">${label}</span>`;
+    }
+
+    /** €/m² z obytnej plochy; pri Green Atrium API ukladá inú metriku (cena/brutto). */
+    function unitPpm(u) {
+      if (u.price_total_eur > 0 && u.area_interior_m2 > 0) {
+        return u.price_total_eur / u.area_interior_m2;
+      }
+      return u.price_per_m2_eur > 0 ? u.price_per_m2_eur : null;
+    }
+
+    function projectStats(slug) {
+      const allInDb = DATA.units.filter((u) => u.project_slug === slug);
+      const offer = allInDb.filter(matchesOfferMode);
+      const priced = offer.filter((u) => u.price_total_eur > 0);
+      const ppm = priced.map(unitPpm).filter((p) => p != null && p > 0);
+      const areas = priced.map((u) => u.area_interior_m2).filter(Boolean);
+      const rooms = priced.map((u) => u.rooms).filter(Boolean);
+      const prices = priced.map((u) => u.price_total_eur);
+      return {
+        offerCount: offer.length,
+        dbTotal: allInDb.length,
+        soldInDb: allInDb.filter((u) => u.status === "sold").length,
+        priceMin: prices.length ? Math.min(...prices) : null,
+        priceMax: prices.length ? Math.max(...prices) : null,
+        ppmAvg: ppm.length ? ppm.reduce((a, b) => a + b, 0) / ppm.length : null,
+        areaMin: areas.length ? Math.min(...areas) : null,
+        areaMax: areas.length ? Math.max(...areas) : null,
+        roomsMin: rooms.length ? Math.min(...rooms) : null,
+        roomsMax: rooms.length ? Math.max(...rooms) : null,
+      };
+    }
+
+    function renderOverview() {
+      const el = document.getElementById("project-cards");
+      el.innerHTML = DATA.projects.map((p) => {
+        const s = projectStats(p.slug);
+        const fin = (p.financing || []).map((x) => `<li>${x}</li>`).join("");
+        const am = (p.amenities || []).map((x) => `<li>${x}</li>`).join("");
+        return `
+          <article class="card">
+            <h2>${p.name}</h2>
+            <p class="muted">${p.developer} · ${p.district || ""}, ${p.city || ""}</p>
+            <p class="muted">${p.address || ""}</p>
+            ${p.delivery_note ? `<p><strong>Dokončenie:</strong> ${p.delivery_note}</p>` : ""}
+            <p class="muted" style="font-size:0.8rem">Metriky z ponuky: <strong>${OFFER_LABELS[getOfferMode()]}</strong></p>
+            <div class="stats">
+              <div class="stat"><label>${getOfferMode() === "free" ? "Voľných v ponuke" : getOfferMode() === "available" ? "Voľných + rezerv." : "Jednotiek"}</label><strong>${s.offerCount}</strong></div>
+              ${getOfferMode() === "all" ? `<div class="stat"><label>V DB celkom</label><strong>${s.dbTotal}</strong></div><div class="stat"><label>Predaných (v DB)</label><strong>${s.soldInDb}</strong></div>` : ""}
+              <div class="stat"><label>Priemer €/m² (obytná)</label><strong>${s.ppmAvg ? fmtNum(s.ppmAvg, 0) : "—"}</strong></div>
+              <div class="stat"><label>Cena (ponuka)</label><strong>${fmtEur(s.priceMin)} – ${fmtEur(s.priceMax)}</strong></div>
+              <div class="stat"><label>Plocha (m²)</label><strong>${fmtNum(s.areaMin)} – ${fmtNum(s.areaMax)}</strong></div>
+              <div class="stat"><label>Izby</label><strong>${s.roomsMin != null ? s.roomsMin + " – " + s.roomsMax : "—"}</strong></div>
+            </div>
+            <h3>Financovanie</h3>
+            <ul class="features">${fin || "<li>—</li>"}</ul>
+            <h3>Vybavenie / výhody</h3>
+            <ul class="features">${am || "<li>—</li>"}</ul>
+            <p style="margin-top:0.75rem"><a href="${p.website_url}" target="_blank" rel="noopener">Web projektu</a></p>
+            ${p.notes ? `<p class="muted">${p.notes}</p>` : ""}
+          </article>`;
+      }).join("");
+    }
+
+    function filteredUnits() {
+      const proj = document.getElementById("f-project").value;
+      const roomsMin = parseFloat(document.getElementById("f-rooms-min").value);
+      const priceMax = parseFloat(document.getElementById("f-price-max").value);
+      const areaMin = parseFloat(document.getElementById("f-area-min").value);
+      return DATA.units.filter((u) => {
+        if (proj && u.project_slug !== proj) return false;
+        if (!matchesOfferMode(u)) return false;
+        if (!Number.isNaN(roomsMin) && (u.rooms == null || u.rooms < roomsMin)) return false;
+        if (!Number.isNaN(priceMax) && u.price_total_eur > priceMax) return false;
+        if (!Number.isNaN(areaMin) && (u.area_interior_m2 == null || u.area_interior_m2 < areaMin)) return false;
+        return true;
+      });
+    }
+
+    function sortValue(u, key) {
+      switch (key) {
+        case "price_per_m2":
+          return unitPpm(u);
+        case "status":
+          return STATUS_SORT_ORDER[u.status] ?? 99;
+        case "floor": {
+          const n = parseFloat(String(u.floor || "").replace(",", "."));
+          return Number.isNaN(n) ? null : n;
+        }
+        case "rooms":
+        case "area_interior_m2":
+        case "area_total_m2":
+        case "price_total_eur":
+          return u[key] ?? null;
+        default:
+          return u[key] ?? "";
+      }
+    }
+
+    function compareValues(a, b, dir) {
+      const mul = dir === "asc" ? 1 : -1;
+      const aNil = a == null || a === "";
+      const bNil = b == null || b === "";
+      if (aNil && bNil) return 0;
+      if (aNil) return 1;
+      if (bNil) return -1;
+      if (typeof a === "number" && typeof b === "number") {
+        return (a - b) * mul;
+      }
+      return String(a).localeCompare(String(b), "sk", { numeric: true, sensitivity: "base" }) * mul;
+    }
+
+    function sortUnits(rows) {
+      if (!tableSort.key) return rows;
+      const { key, dir } = tableSort;
+      return [...rows].sort((a, b) => compareValues(sortValue(a, key), sortValue(b, key), dir));
+    }
+
+    function updateSortHeaders() {
+      document.querySelectorAll("#units-thead-row th.sortable").forEach((th) => {
+        th.classList.remove("asc", "desc");
+        if (th.dataset.sort === tableSort.key) {
+          th.classList.add(tableSort.dir);
+        }
+      });
+    }
+
+    function initTableSort() {
+      document.querySelectorAll("#units-thead-row th.sortable").forEach((th) => {
+        th.addEventListener("click", () => {
+          const key = th.dataset.sort;
+          if (tableSort.key === key) {
+            tableSort.dir = tableSort.dir === "asc" ? "desc" : "asc";
+          } else {
+            tableSort = { key, dir: "asc" };
+          }
+          updateSortHeaders();
+          renderUnits();
+        });
+      });
+      updateSortHeaders();
+    }
+
+    const UNITS_MD_COLUMNS = [
+      { key: "project_name", label: "Projekt" },
+      { key: "unit_code", label: "Kód" },
+      { key: "building_name", label: "Etapa" },
+      { key: "rooms", label: "Izby" },
+      { key: "area_interior_m2", label: "m² (int.)" },
+      { key: "area_total_m2", label: "m² (celkom)" },
+      { key: "price_total_eur", label: "Cena" },
+      { key: "price_per_m2", label: "€/m²" },
+      { key: "floor", label: "Posch." },
+      { key: "status", label: "Stav" },
+      { key: "orientation", label: "Orient." },
+    ];
+
+    function mdEscapeCell(val) {
+      if (val == null || val === "") return "—";
+      return String(val).replace(/\|/g, "\\|").replace(/\r?\n/g, " ").trim();
+    }
+
+    function unitMdCell(u, key) {
+      switch (key) {
+        case "unit_code":
+          return mdEscapeCell(u.unit_code || u.external_id);
+        case "building_name":
+        case "floor":
+        case "orientation":
+        case "project_name":
+          return mdEscapeCell(u[key]);
+        case "rooms":
+          return u.rooms != null ? String(u.rooms) : "—";
+        case "area_interior_m2":
+        case "area_total_m2":
+          return u[key] != null ? fmtNum(u[key]) : "—";
+        case "price_total_eur": {
+          let s = u.price_total_eur > 0 ? fmtEur(u.price_total_eur) : "—";
+          if (u.price_with_financing_eur) s += ` (flexi ${fmtEur(u.price_with_financing_eur)})`;
+          else if (u.price_non_debt_eur) s += ` (non-debt ${fmtEur(u.price_non_debt_eur)})`;
+          return mdEscapeCell(s);
+        }
+        case "price_per_m2": {
+          const ppm = unitPpm(u);
+          return ppm != null ? fmtNum(ppm, 0) : "—";
+        }
+        case "status":
+          return STATUS_LABELS[u.status] || u.status || "—";
+        default:
+          return mdEscapeCell(u[key]);
+      }
+    }
+
+    function unitsFilterSummary() {
+      const parts = [`Ponuka: ${OFFER_LABELS[getOfferMode()]}`];
+      const proj = document.getElementById("f-project");
+      if (proj.value) {
+        const name = proj.selectedOptions[0]?.textContent || proj.value;
+        parts.push(`Projekt: ${name}`);
+      }
+      const roomsMin = document.getElementById("f-rooms-min").value;
+      const priceMax = document.getElementById("f-price-max").value;
+      const areaMin = document.getElementById("f-area-min").value;
+      if (roomsMin) parts.push(`Izby min: ${roomsMin}`);
+      if (priceMax) parts.push(`Cena max: ${priceMax} €`);
+      if (areaMin) parts.push(`Plocha min: ${areaMin} m²`);
+      if (tableSort.key) {
+        const col = UNITS_MD_COLUMNS.find((c) => c.key === tableSort.key)?.label || tableSort.key;
+        parts.push(`Zoradenie: ${col} (${tableSort.dir === "asc" ? "vzostupne" : "zostupne"})`);
+      }
+      return parts.join(" · ");
+    }
+
+    function buildUnitsMarkdown(rows) {
+      const headers = UNITS_MD_COLUMNS.map((c) => c.label);
+      const sep = headers.map(() => "---");
+      const body = rows.map((u) =>
+        UNITS_MD_COLUMNS.map((c) => unitMdCell(u, c.key)).join(" | ")
+      );
+      const generated = DATA.generated_at || new Date().toISOString();
+      const lines = [
+        "# Jednotky — porovnanie projektov",
+        "",
+        `- Vygenerované: ${generated}`,
+        `- ${unitsFilterSummary()}`,
+        `- Počet riadkov: ${rows.length}`,
+        "",
+        `| ${headers.join(" | ")} |`,
+        `| ${sep.join(" | ")} |`,
+        ...body.map((line) => `| ${line} |`),
+        "",
+      ];
+      return lines.join("\n");
+    }
+
+    function downloadMarkdownFile(filename, content) {
+      const blob = new Blob([content], { type: "text/markdown;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function downloadUnitsMarkdown() {
+      const rows = sortUnits(filteredUnits());
+      if (!rows.length) {
+        window.alert("Žiadne jednotky na export — upravte filtre alebo režim ponuky.");
+        return;
+      }
+      const stamp = (DATA.generated_at || new Date().toISOString()).slice(0, 10);
+      downloadMarkdownFile(`jednotky-${stamp}.md`, buildUnitsMarkdown(rows));
+    }
+
+    function insightsListMd(items, emptyText) {
+      if (!items || !items.length) return [emptyText, ""];
+      return items.flatMap((item) => [
+        `### ${mdEscapeCell(item.title)}`,
+        `*${item.kind === "opportunity" ? "Príležitosť" : "Riziko"}*`,
+        mdEscapeCell(item.body),
+        "",
+      ]);
+    }
+
+    function buildInsightsMarkdown() {
+      const ins = DATA.insights;
+      if (!ins) return null;
+      const mode = getOfferMode();
+      const block = ins.offer_modes?.[mode];
+      if (!block) return null;
+
+      const focusSlug = ins.focus_project;
+      const slugs = [focusSlug, ...Object.keys(ins.competitor_names || {})];
+      const names = { [focusSlug]: ins.focus_name || "NUPPU", ...ins.competitor_names };
+      const segments = block.segments || [];
+      const segSel = document.getElementById("f-insights-segment");
+      const segId = segSel?.value || (segments[0] && segments[0].id);
+      const segRow = segments.find((s) => s.id === segId) || segments[0];
+
+      const matrixHeaders = ["Segment", ...slugs.map((s) => names[s] || s)];
+      const matrixSep = matrixHeaders.map(() => "---");
+      const matrixRows = segments.map((seg) => {
+        const cells = slugs.map((slug) => {
+          const s = seg.projects[slug];
+          if (!s || !s.count) return "—";
+          const ppm = s.median_ppm != null ? `${fmtNum(s.median_ppm, 0)} €/m²` : "—";
+          return mdEscapeCell(`${ppm}; ${s.count} ks; od ${fmtEur(s.min_price)}`);
+        });
+        return [mdEscapeCell(seg.label), ...cells].join(" | ");
+      });
+
+      const chartRows = segRow
+        ? Object.entries(segRow.projects || {})
+            .map(([slug, s]) => ({ slug, name: s.name, ppm: s.median_ppm, count: s.count }))
+            .filter((r) => r.ppm != null && r.count > 0)
+            .sort((a, b) => a.ppm - b.ppm)
+        : [];
+
+      const generated = DATA.generated_at || new Date().toISOString();
+      const lines = [
+        `# Insighty — ${ins.focus_name || "NUPPU"} vs trh`,
+        "",
+        `- Vygenerované: ${generated}`,
+        `- Ponuka: ${OFFER_LABELS[mode]}`,
+        segRow ? `- Graf segment: ${segRow.label}` : "",
+        "",
+        ins.methodology || "",
+        "",
+        "## Príležitosti",
+        "",
+        ...insightsListMd(block.opportunities, "_Žiadne príležitosti pri aktuálnych pravidlách._"),
+        "## Riziká",
+        "",
+        ...insightsListMd(block.risks, "_Žiadne výrazné riziká._"),
+        "## Segmenty — prehľad",
+        "",
+        `| ${matrixHeaders.join(" | ")} |`,
+        `| ${matrixSep.join(" | ")} |`,
+        ...matrixRows.map((line) => `| ${line} |`),
+        "",
+      ];
+
+      const priceRows = segRow
+        ? Object.entries(segRow.projects || {})
+            .map(([slug, s]) => ({ slug, name: s.name, price: s.median_price, count: s.count }))
+            .filter((r) => r.price != null && r.count > 0)
+            .sort((a, b) => a.price - b.price)
+        : [];
+
+      if (chartRows.length && segRow) {
+        lines.push(`## Medián €/m² — ${segRow.label}`, "", "| Projekt | Medián €/m² | Počet |", "| --- | --- | --- |");
+        chartRows.forEach((r) => {
+          lines.push(`| ${mdEscapeCell(r.name)} | ${fmtNum(r.ppm, 0)} | ${r.count} |`);
+        });
+        lines.push("");
+      }
+
+      if (priceRows.length && segRow) {
+        lines.push(
+          `## Medián celková cena — ${segRow.label}`,
+          "",
+          "| Projekt | Medián cena | Počet |",
+          "| --- | --- | --- |"
+        );
+        priceRows.forEach((r) => {
+          lines.push(`| ${mdEscapeCell(r.name)} | ${fmtEur(r.price)} | ${r.count} |`);
+        });
+        lines.push("");
+      }
+
+      return lines.join("\n");
+    }
+
+    function downloadInsightsMarkdown() {
+      const md = buildInsightsMarkdown();
+      if (!md) {
+        window.alert("Insighty nie sú k dispozícii. Spustite python -m etl.build_dashboard.");
+        return;
+      }
+      const stamp = (DATA.generated_at || new Date().toISOString()).slice(0, 10);
+      downloadMarkdownFile(`insighty-${stamp}.md`, md);
+    }
+
+    function renderUnits() {
+      const rows = sortUnits(filteredUnits());
+      const offerTotal = unitsInOffer().length;
+      document.getElementById("units-count").textContent = `Zobrazených ${rows.length} z ${offerTotal} v ponuke (${OFFER_LABELS[getOfferMode()]})`;
+      const tbody = document.getElementById("units-tbody");
+      tbody.innerHTML = rows.map((u) => {
+        const alt = u.price_with_financing_eur
+          ? ` <span class="muted" title="Flexi financovanie">(${fmtEur(u.price_with_financing_eur)})</span>`
+          : u.price_non_debt_eur
+          ? ` <span class="muted" title="NonDebt">(${fmtEur(u.price_non_debt_eur)})</span>`
+          : "";
+        return `<tr class="clickable" data-id="${u.id}">
+          <td>${u.project_name}</td>
+          <td>${u.unit_code || "—"}</td>
+          <td>${u.building_name || "—"}</td>
+          <td>${u.rooms != null ? u.rooms : "—"}</td>
+          <td>${fmtNum(u.area_interior_m2)}</td>
+          <td>${fmtNum(u.area_total_m2)}</td>
+          <td>${fmtEur(u.price_total_eur)}${alt}</td>
+          <td>${fmtNum(unitPpm(u), 0)}</td>
+          <td>${u.floor || "—"}</td>
+          <td>${badge(u.status)}</td>
+          <td>${u.orientation || "—"}</td>
+        </tr>`;
+      }).join("");
+      tbody.querySelectorAll("tr").forEach((tr) => {
+        tr.addEventListener("click", () => openModal(Number(tr.dataset.id)));
+      });
+    }
+
+    function openModal(unitId) {
+      const u = DATA.units.find((x) => x.id === unitId);
+      if (!u) return;
+      document.getElementById("modal-title").textContent = `${u.project_name} · ${u.unit_code || u.external_id}`;
+      document.getElementById("modal-sub").innerHTML = [
+        badge(u.status),
+        u.detail_url ? ` · <a href="${u.detail_url}" target="_blank" rel="noopener">Detail na webe</a>` : "",
+        u.floorplan_url ? ` · <a href="${u.floorplan_url}" target="_blank" rel="noopener">Pôdorys</a>` : "",
+        u.pdf_url ? ` · <a href="${u.pdf_url}" target="_blank" rel="noopener">PDF</a>` : "",
+      ].join("");
+      const core = [
+        ["Cena", fmtEur(u.price_total_eur)],
+        ["€/m² (obytná)", fmtNum(unitPpm(u), 0)],
+        ["Cena (flexi / non-debt)", fmtEur(u.price_with_financing_eur || u.price_non_debt_eur)],
+        ["Plocha interiér", fmtNum(u.area_interior_m2) + " m²"],
+        ["Plocha exteriér", fmtNum(u.area_exterior_m2) + " m²"],
+        ["Plocha celkom", fmtNum(u.area_total_m2) + " m²"],
+        ["Izby", u.rooms],
+        ["Poschodie", u.floor],
+        ["Orientácia", u.orientation],
+        ["Etapa / blok", u.building_name],
+        ["Zdroj poľa ceny", u.price_label],
+      ];
+      const attrs = [...core, ...(u.attributes || []).map((a) => [a.key, a.value])];
+      document.getElementById("modal-attrs").innerHTML = attrs
+        .map(([k, v]) => `<dt>${k}</dt><dd>${v != null && v !== "" ? v : "—"}</dd>`)
+        .join("");
+      document.getElementById("modal").classList.add("open");
+    }
+
+    function closeModal() {
+      document.getElementById("modal").classList.remove("open");
+    }
+
+    function renderInsightsScatter() {
+      const canvas = document.getElementById("insights-scatter");
+      const caption = document.getElementById("insights-scatter-caption");
+      if (!canvas || typeof Chart === "undefined") {
+        if (caption) caption.textContent = "Graf nie je k dispozícii (Chart.js).";
+        return;
+      }
+
+      const mode = getOfferMode();
+      const points = DATA.units.filter(
+        (u) =>
+          matchesOfferMode(u) &&
+          u.area_interior_m2 > 0 &&
+          u.price_total_eur > 0
+      );
+
+      caption.textContent = `${points.length} jednotiek · ponuka: ${OFFER_LABELS[mode]} · klik na bod = detail`;
+
+      const datasets = DATA.projects.map((p) => {
+        const slug = p.slug;
+        const color = PROJECT_SCATTER_COLORS[slug] || "#8b9cb3";
+        const units = points.filter((u) => u.project_slug === slug);
+        return {
+          label: p.name,
+          data: units.map((u) => ({
+            x: u.area_interior_m2,
+            y: u.price_total_eur,
+          })),
+          unitIds: units.map((u) => u.id),
+          backgroundColor: color,
+          borderColor: color,
+          borderWidth: 1,
+          pointRadius: 4,
+          pointHoverRadius: 7,
+          pointHoverBorderWidth: 2,
+        };
+      }).filter((ds) => ds.data.length > 0);
+
+      if (insightsScatterChart) {
+        insightsScatterChart.destroy();
+        insightsScatterChart = null;
+      }
+
+      if (!points.length) {
+        return;
+      }
+
+      insightsScatterChart = new Chart(canvas, {
+        type: "scatter",
+        data: { datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: "nearest", intersect: true },
+          plugins: {
+            legend: {
+              position: "top",
+              labels: { color: "#e8edf4", boxWidth: 12, padding: 14 },
+            },
+            tooltip: {
+              callbacks: {
+                label(ctx) {
+                  const u = DATA.units.find(
+                    (x) => x.id === ctx.dataset.unitIds[ctx.dataIndex]
+                  );
+                  const code = u?.unit_code || u?.external_id || "";
+                  return [
+                    `${ctx.dataset.label}${code ? " · " + code : ""}`,
+                    `Plocha: ${fmtNum(ctx.parsed.x)} m²`,
+                    `Cena: ${fmtEur(ctx.parsed.y)}`,
+                    u ? `€/m²: ${fmtNum(unitPpm(u), 0)}` : "",
+                  ];
+                },
+              },
+            },
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: "Interiérová plocha (m²)",
+                color: "#8b9cb3",
+              },
+              ticks: { color: "#8b9cb3" },
+              grid: { color: "rgba(45, 58, 79, 0.6)" },
+            },
+            y: {
+              title: {
+                display: true,
+                text: "Cena (€)",
+                color: "#8b9cb3",
+              },
+              ticks: {
+                color: "#8b9cb3",
+                callback: (v) => fmtEur(v).replace(/\s/g, " "),
+              },
+              grid: { color: "rgba(45, 58, 79, 0.6)" },
+            },
+          },
+          onClick(_evt, elements, chart) {
+            if (!elements.length || !chart) return;
+            const el = elements[0];
+            const id = chart.data.datasets[el.datasetIndex].unitIds[el.index];
+            if (id != null) openModal(Number(id));
+          },
+        },
+      });
+    }
+
+    function insightCard(item) {
+      const tag = item.kind === "opportunity" ? "Príležitosť" : "Riziko";
+      return `<article class="insight-card ${item.kind}">
+        <span class="tag">${tag}</span>
+        <h3>${item.title}</h3>
+        <p>${item.body}</p>
+      </article>`;
+    }
+
+    function renderInsightsBarChart(containerId, segmentRow, focusSlug, valueKey, formatValue) {
+      const el = document.getElementById(containerId);
+      if (!el) return;
+      const projects = segmentRow?.projects || {};
+      const rows = Object.entries(projects)
+        .map(([slug, s]) => ({
+          slug,
+          name: s.name,
+          value: s[valueKey],
+          count: s.count,
+        }))
+        .filter((r) => r.value != null && r.count > 0);
+      if (!rows.length) {
+        el.innerHTML = "<p class='muted'>Nedostatok dát pre graf v tomto segmente.</p>";
+        return;
+      }
+      const maxVal = Math.max(...rows.map((r) => r.value));
+      el.innerHTML = rows
+        .map((r) => {
+          const pct = maxVal > 0 ? (r.value / maxVal) * 100 : 0;
+          const focus = r.slug === focusSlug ? " focus" : "";
+          return `<div class="chart-row${focus}">
+            <span class="chart-label">${r.name}</span>
+            <div class="chart-bar-wrap"><div class="chart-bar" style="width:${pct}%"></div></div>
+            <span class="chart-value">${formatValue(r.value)} <span class="muted">(n=${r.count})</span></span>
+          </div>`;
+        })
+        .join("");
+    }
+
+    function renderInsightsChart(segmentRow, focusSlug) {
+      renderInsightsBarChart(
+        "insights-chart",
+        segmentRow,
+        focusSlug,
+        "median_ppm",
+        (v) => fmtNum(v, 0)
+      );
+      renderInsightsBarChart(
+        "insights-price-chart",
+        segmentRow,
+        focusSlug,
+        "median_price",
+        (v) => fmtEur(v)
+      );
+    }
+
+    function renderInsightsMatrix(segments, focusSlug, activeSegId) {
+      const table = document.getElementById("insights-matrix");
+      const slugs = [focusSlug, ...Object.keys(DATA.insights?.competitor_names || {})];
+      const names = { [focusSlug]: DATA.insights?.focus_name || "NUPPU", ...DATA.insights?.competitor_names };
+      table.querySelector("thead").innerHTML =
+        `<tr><th>Segment</th>${slugs.map((s) => `<th class="${s === focusSlug ? "focus-col" : ""}">${names[s] || s}</th>`).join("")}</tr>`;
+      table.querySelector("tbody").innerHTML = segments
+        .map((seg) => {
+          const cells = slugs.map((slug) => {
+            const s = seg.projects[slug];
+            if (!s || !s.count) return "<td>—</td>";
+            const ppm = s.median_ppm != null ? fmtNum(s.median_ppm, 0) + " €/m²" : "—";
+            return `<td class="${slug === focusSlug ? "focus-col" : ""}">${ppm}<br><span class="muted">${s.count} ks · od ${fmtEur(s.min_price)}</span></td>`;
+          });
+          const active = seg.id === activeSegId ? "segment-active" : "";
+          return `<tr${active ? ` class="${active}"` : ""}><th>${seg.label}</th>${cells.join("")}</tr>`;
+        })
+        .join("");
+    }
+
+    function renderInsights() {
+      const ins = DATA.insights;
+      if (!ins) {
+        document.getElementById("insights-intro").textContent = "Insighty nie sú k dispozícii. Spustite python -m etl.build_dashboard.";
+        return;
+      }
+      const mode = getOfferMode();
+      const block = ins.offer_modes?.[mode];
+      document.getElementById("insights-intro").textContent =
+        `${ins.focus_name} vs trh. ${ins.methodology || ""}`;
+
+      const oppEl = document.getElementById("insights-opportunities");
+      const riskEl = document.getElementById("insights-risks");
+      const opps = block?.opportunities || [];
+      const risks = block?.risks || [];
+      oppEl.innerHTML = opps.length ? opps.map(insightCard).join("") : "<p class='muted'>Žiadne výrazné príležitosti pri aktuálnych pravidlách.</p>";
+      riskEl.innerHTML = risks.length ? risks.map(insightCard).join("") : "<p class='muted'>Žiadne výrazné riziká.</p>";
+
+      const segSel = document.getElementById("f-insights-segment");
+      const segments = block?.segments || [];
+      if (!segSel.options.length && segments.length) {
+        segSel.innerHTML = segments.map((s) => `<option value="${s.id}">${s.label}</option>`).join("");
+        segSel.addEventListener("change", renderInsights);
+        segSel.value = segments.find((s) => s.id === "3") ? "3" : segments[0].id;
+      }
+      const segId = segSel.value || (segments[0] && segments[0].id);
+      const segRow = segments.find((s) => s.id === segId) || segments[0];
+      document.getElementById("insights-chart-caption").textContent = segRow
+        ? `Segment: ${segRow.label} · ${OFFER_LABELS[mode]}`
+        : "";
+      renderInsightsScatter();
+      renderInsightsChart(segRow, ins.focus_project);
+      renderInsightsMatrix(segments, ins.focus_project, segId);
+    }
+
+    function renderMetaAdsSov(competitors, focusSlug) {
+      const el = document.getElementById("meta-sov-chart");
+      if (!el || !competitors.length) return;
+      const max = Math.max(...competitors.map((c) => c.active_ads_count || 0), 1);
+      el.innerHTML = competitors
+        .map((c) => {
+          const n = c.active_ads_count || 0;
+          const pct = Math.round((n / max) * 100);
+          const focus = c.slug === focusSlug || c.focus ? " focus" : "";
+          return `<div class="chart-row${focus}">
+            <span class="chart-label">${c.name}</span>
+            <div class="chart-bar-wrap"><div class="chart-bar" style="width:${pct}%"></div></div>
+            <span class="chart-value">${n} aktívnych</span>
+          </div>`;
+        })
+        .join("");
+    }
+
+    function renderMetaCompetitors(ma) {
+      const grid = document.getElementById("meta-competitor-grid");
+      const links = ma.ad_library_links || {};
+      const competitors = ma.competitors || [];
+      grid.innerHTML = competitors
+        .map((c) => {
+          const fin = c.financing_in_ads
+            ? '<span class="muted"> · financovanie v reklamách</span>'
+            : '<span class="muted"> · bez 10/90 v reklamách</span>';
+          const msgs = (c.key_messages || []).map((m) => `<li>${m}</li>`).join("");
+          const link = links[c.slug]
+            ? `<p style="margin:0.75rem 0 0"><a href="${links[c.slug]}" target="_blank" rel="noopener">Otvoriť v Ad Library →</a></p>`
+            : "";
+          return `<article class="meta-competitor-card${c.focus ? " focus" : ""}">
+            <h3>${c.name} <span class="meta-ads-badge">${c.active_ads_count} reklám</span></h3>
+            <p class="meta-angle">${c.developer || ""} · ${c.district || ""}${fin}</p>
+            <p class="meta-angle" style="margin-top:0"><strong>${c.primary_angle || ""}</strong></p>
+            <ul>${msgs}</ul>
+            ${link}
+          </article>`;
+        })
+        .join("");
+    }
+
+    function renderMetaClusters(ma) {
+      const el = document.getElementById("meta-cluster-list");
+      const nameBySlug = Object.fromEntries((ma.competitors || []).map((c) => [c.slug, c.name]));
+      const clusters = ma.market_clusters || [];
+      el.innerHTML = clusters
+        .map((cl) => {
+          const players = (cl.players || []).map((s) => nameBySlug[s] || s).join(", ");
+          return `<div class="meta-cluster">
+            <strong>${cl.label}</strong>
+            <span>${players}</span>
+            <p style="margin:0.35rem 0 0;color:var(--muted);font-size:0.8rem">${cl.description || ""}</p>
+          </div>`;
+        })
+        .join("");
+    }
+
+    function buildMetaAdsMarkdown() {
+      const ma = DATA.meta_ads;
+      if (!ma) return "";
+      const lines = [
+        "# Meta Ad Library — prehľad konkurencie",
+        "",
+        `Zdroj: ${ma.source || "Meta Ad Library"} · ${ma.country || "SK"} · ${ma.active_status || "active"}`,
+        `Zachytené: ${ma.captured_at || "—"} · ${ma.method || ""}`,
+        ma.note ? `\n_${ma.note}_\n` : "",
+        "",
+        "## Share of voice (aktívne reklamy)",
+        "",
+        "| Projekt | Reklám | Okres | Hlavný angle |",
+        "|---------|--------|-------|--------------|",
+      ];
+      (ma.competitors || []).forEach((c) => {
+        lines.push(
+          `| ${c.name} | ${c.active_ads_count} | ${c.district || ""} | ${c.primary_angle || ""} |`
+        );
+      });
+      lines.push("", "## Príležitosti pre NUPPU", "");
+      (ma.opportunities || []).forEach((o) => {
+        lines.push(`- **${o.title}** — ${o.body}`);
+      });
+      lines.push("", "## Riziká pre NUPPU", "");
+      (ma.risks || []).forEach((r) => {
+        lines.push(`- **${r.title}** — ${r.body}`);
+      });
+      lines.push("", "## Zhrnutie", "");
+      (ma.executive_summary || []).forEach((s) => lines.push(`- ${s}`));
+      return lines.join("\n");
+    }
+
+    function downloadMetaAdsMarkdown() {
+      const md = buildMetaAdsMarkdown();
+      if (!md) return;
+      const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `meta-ads-${DATA.meta_ads?.captured_at || "report"}.md`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function renderMetaAds() {
+      const ma = DATA.meta_ads;
+      const emptyEl = document.getElementById("meta-ads-empty");
+      const contentEl = document.getElementById("meta-ads-content");
+      if (!ma || !(ma.competitors || []).length) {
+        emptyEl.style.display = "block";
+        contentEl.style.display = "none";
+        return;
+      }
+      emptyEl.style.display = "none";
+      contentEl.style.display = "block";
+
+      const focus = (ma.competitors || []).find((c) => c.focus);
+      const focusSlug = focus?.slug || "nuppu";
+      const total = (ma.competitors || []).reduce((s, c) => s + (c.active_ads_count || 0), 0);
+
+      document.getElementById("meta-ads-intro").textContent =
+        `${ma.source || "Meta Ad Library"} · ${ma.country || "SK"} · stav ${ma.active_status || "active"} · zachytené ${ma.captured_at || "—"} (${ma.method || "manual"})`;
+      document.getElementById("meta-ads-sov-caption").textContent =
+        `Spolu ${total} aktívnych reklám v tomto výbere · zoradené podľa intenzity`;
+
+      renderMetaAdsSov(ma.competitors, focusSlug);
+      renderMetaCompetitors(ma);
+      renderMetaClusters(ma);
+
+      const oppEl = document.getElementById("meta-ads-opportunities");
+      const riskEl = document.getElementById("meta-ads-risks");
+      oppEl.innerHTML = (ma.opportunities || []).length
+        ? ma.opportunities.map((o) => insightCard({ kind: "opportunity", ...o })).join("")
+        : "<p class='muted'>—</p>";
+      riskEl.innerHTML = (ma.risks || []).length
+        ? ma.risks.map((r) => insightCard({ kind: "risk", ...r })).join("")
+        : "<p class='muted'>—</p>";
+
+      document.getElementById("meta-ads-summary").innerHTML = (ma.executive_summary || [])
+        .map((s) => `<li>${s}</li>`)
+        .join("");
+    }
+
+    function initFilters() {
+      document.getElementById("f-offer-mode").addEventListener("change", (e) => {
+        setOfferMode(e.target.value);
+      });
+      document.getElementById("f-offer-mode-insights").addEventListener("change", (e) => {
+        setOfferMode(e.target.value);
+      });
+
+      const projSel = document.getElementById("f-project");
+      DATA.projects.forEach((p) => {
+        projSel.innerHTML += `<option value="${p.slug}">${p.name}</option>`;
+      });
+      ["f-project", "f-rooms-min", "f-price-max", "f-area-min"].forEach((id) => {
+        document.getElementById(id).addEventListener("input", renderUnits);
+        document.getElementById(id).addEventListener("change", renderUnits);
+      });
+      document.getElementById("btn-download-md").addEventListener("click", downloadUnitsMarkdown);
+      document.getElementById("btn-download-insights-md").addEventListener("click", downloadInsightsMarkdown);
+      document.getElementById("btn-download-meta-ads-md").addEventListener("click", downloadMetaAdsMarkdown);
+    }
+
+    document.querySelectorAll("nav.tabs button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("nav.tabs button").forEach((b) => b.classList.remove("active"));
+        document.querySelectorAll(".panel").forEach((p) => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("panel-" + btn.dataset.tab).classList.add("active");
+        if (btn.dataset.tab === "insights") renderInsights();
+        if (btn.dataset.tab === "meta-ads") renderMetaAds();
+      });
+    });
+
+    document.getElementById("modal-close").addEventListener("click", closeModal);
+    document.getElementById("modal").addEventListener("click", (e) => {
+      if (e.target.id === "modal") closeModal();
+    });
+
+    if (DATA.projects.length) {
+      document.getElementById("meta-line").textContent =
+        DATA.projects.map((p) => p.name).join(" · ");
+    }
+    if (DATA.generated_at) {
+      document.getElementById("meta-line").textContent += ` · Aktualizované: ${DATA.generated_at}`;
+    }
+
+    initFilters();
+    renderOverview();
+    initTableSort();
+    renderUnits();
+    renderInsights();
+    renderMetaAds();
+  </script>
+</body>
+</html>

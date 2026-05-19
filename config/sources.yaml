@@ -1,0 +1,41 @@
+user_agent: "yit-comparison-local/1.0 (personal research)"
+rate_limit_seconds: 1
+
+green_atrium:
+  slug: green_atrium
+  name: Green Atrium
+  developer: Haberl
+  website_url: https://www.bytygreenatrium.sk
+  pricelist_url: https://www.bytygreenatrium.sk/pricelist/get
+  duplex_pricelist_url: https://www.bytygreenatrium.sk/duplex-pricelist/get
+  base_url: https://www.bytygreenatrium.sk
+
+yit_nuppu:
+  slug: nuppu
+  name: NUPPU
+  developer: YIT Slovakia
+  website_url: https://www.yit.sk/predaj-bytov/bratislava/ruzinov/nuppu
+  api_url: https://www.yit.sk/api/v1/productsearch/apartments
+  page_id: 35130
+  site_id: yit.sk
+  area_ids: d80f64b6-959f-4fbd-a2fa-4ad2504934b5
+  page_size: 500
+  ui_language: sk
+
+bory:
+  slug: bory
+  name: Bory
+  developer: Penta Real Estate
+  website_url: https://borybyvanie.sk/byty
+  api_url: https://api.borybyvanie.sk/api/v1/apartment-houses/filter
+  base_url: https://borybyvanie.sk
+
+slnecnice_viladomy:
+  slug: slnecnice_viladomy
+  name: Slnečnice Nové viladomy
+  developer: CRESCO Real Estate
+  website_url: https://www.slnecnice.sk/projekty/nove-viladomy
+  api_url: https://api.slnecnice.sk/api/flats
+  api_project: Nove Viladomy
+  base_url: https://www.slnecnice.sk
+  flats_path: /byvanie
