@@ -123,7 +123,7 @@ Po vyplnení CSV si v Exceli / Numbers spravte pivot alebo ručne spočítajte:
 | Kampane na 2-izbové + váš segment 2 izby slabý v ponuke | Doplniť messaging / cenu v segmente | Strata entry buyers |
 | Nová landing URL / nový projekt v texte | Sledovať ponuku na webe (`python -m etl.fetch_all`) | Launch konkurencie |
 
-Spojenie s cenami z demo: [yit-compare-demo.vercel.app](https://yit-compare-demo.vercel.app/) — záložka **Insighty (NUPPU)** + tabuľka bytov.
+Spojenie s cenami z demo: [yit-compare-demo.vercel.app](https://yit-compare-demo.vercel.app/) — záložka **Insighty** + tabuľka bytov.
 
 ---
 

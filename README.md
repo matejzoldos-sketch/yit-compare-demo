@@ -1,6 +1,6 @@
-# Marketing Intelligence Radar
+# Marketing Intelligence Radar NUPPU
 
-Porovnanie developerských projektov (byty, ceny, Meta Ad Library).
+Porovnanie developerských projektov (byty, ceny, Meta Ad Library). Fokus: NUPPU vs konkurencia.
 
 Lokálny nástroj na zber, normalizáciu a porovnanie ponuky bytov z verejných API:
 
