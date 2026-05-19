@@ -359,7 +359,6 @@
 <body>
   <header>
     <h1>Marketing Intelligence Radar NUPPU</h1>
-    <p id="meta-line">Ponuka bytov · Meta Ad Library · insighty</p>
   </header>
   <nav class="tabs" role="tablist">
     <button type="button" class="active" data-tab="overview">Prehľad projektov</button>
@@ -539,7 +538,6 @@
     const DATA = /*__DATA__*/;
 
     const APP_TITLE = "Marketing Intelligence Radar NUPPU";
-    const APP_SUBTITLE = "Ponuka bytov · Meta Ad Library · insighty";
 
     const STATUS_LABELS = {
       free: "Voľný",
@@ -1443,14 +1441,6 @@
     document.getElementById("modal").addEventListener("click", (e) => {
       if (e.target.id === "modal") closeModal();
     });
-
-    if (DATA.projects.length) {
-      document.getElementById("meta-line").textContent =
-        `${APP_SUBTITLE} · ${DATA.projects.map((p) => p.name).join(" · ")}`;
-    }
-    if (DATA.generated_at) {
-      document.getElementById("meta-line").textContent += ` · Aktualizované: ${DATA.generated_at}`;
-    }
 
     initFilters();
     renderOverview();
