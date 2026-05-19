@@ -78,7 +78,7 @@ Dáta sú verejne dostupné na weboch developerov. Tento projekt je určený na 
 
 ## Meta Ad Library (manuálny demo export)
 
-Konkurenčné reklamy pre rovnaké projekty ako na [demo dashboarde](https://yit-compare-demo.vercel.app/):
+Konkurenčné reklamy pre rovnaké projekty ako na [demo dashboarde](https://marketing-intelligence-radar-nuppu.vercel.app/):
 
 - **Dashboard:** záložka **Meta reklamy** (dáta z `config/meta_ads_insights.yaml`, po `python -m etl.build_dashboard`)
 - Návod: [`docs/META_ADS_MANUAL.md`](docs/META_ADS_MANUAL.md) — odkazy, postup, CSV šablóna

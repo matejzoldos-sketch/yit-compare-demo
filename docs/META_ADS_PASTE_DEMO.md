@@ -48,7 +48,7 @@ Počet reklám:
 
 - Porovnanie **intenzity** (kto koľko aktívnych reklám)  
 - **Messaging** — hypotéka, 10/90, posledné byty, lokality, segment izieb  
-- **Príležitosti** pre NUPPU (voči [demo dashboardu](https://yit-compare-demo.vercel.app/))  
+- **Príležitosti** pre NUPPU (voči [demo dashboardu](https://marketing-intelligence-radar-nuppu.vercel.app/))  
 - **Riziká** — agresívna komunikácia, launch signály  
 - Voliteľne: návrh 3–5 bulletov do prezentácie / Slacku  
 

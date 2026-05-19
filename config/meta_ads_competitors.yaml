@@ -1,10 +1,10 @@
-# Konkurenti z demo dashboardu (yit-compare-demo.vercel.app)
+# Konkurenti z demo dashboardu (marketing-intelligence-radar-nuppu.vercel.app)
 # Manuálny export z Meta Ad Library → data/raw/meta_ads/manual/
 #
 # Po prvom otvorení v Ad Library overte správnu stránku (Page) a doplňte page_id
 # (číslo z URL po kliknutí „Zobraziť všetky reklamy“ na stránke).
 
-demo_url: https://yit-compare-demo.vercel.app/
+demo_url: https://marketing-intelligence-radar-nuppu.vercel.app/
 
 # Nastavenia vyhľadávania v Ad Library UI (odporúčané pre všetky odkazy nižšie)
 library_defaults:

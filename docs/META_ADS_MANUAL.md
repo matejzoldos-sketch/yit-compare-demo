@@ -1,6 +1,6 @@
 # Manuálny export z Meta Ad Library (demo konkurenti)
 
-Pre [demo porovnanie projektov](https://yit-compare-demo.vercel.app/) — rovnakí hráči ako v `config/insights.yaml`:
+Pre [demo porovnanie projektov](https://marketing-intelligence-radar-nuppu.vercel.app/) — rovnakí hráči ako v `config/insights.yaml`:
 
 | Projekt | Developer | Slug |
 |---------|-----------|------|
@@ -123,7 +123,7 @@ Po vyplnení CSV si v Exceli / Numbers spravte pivot alebo ručne spočítajte:
 | Kampane na 2-izbové + váš segment 2 izby slabý v ponuke | Doplniť messaging / cenu v segmente | Strata entry buyers |
 | Nová landing URL / nový projekt v texte | Sledovať ponuku na webe (`python -m etl.fetch_all`) | Launch konkurencie |
 
-Spojenie s cenami z demo: [yit-compare-demo.vercel.app](https://yit-compare-demo.vercel.app/) — záložka **Insighty** + tabuľka bytov.
+Spojenie s cenami z demo: [marketing-intelligence-radar-nuppu.vercel.app](https://marketing-intelligence-radar-nuppu.vercel.app/) — záložka **Insighty** + tabuľka bytov.
 
 ---
 
