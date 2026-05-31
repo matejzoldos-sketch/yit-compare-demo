@@ -1155,10 +1155,15 @@
 
     function insightCard(item) {
       const tag = item.kind === "opportunity" ? "Príležitosť" : "Riziko";
+      const src =
+        item.source === "product_web"
+          ? '<span class="muted" style="display:block;font-size:0.75rem;margin-top:0.35rem">Zdroj: web (nie Meta)</span>'
+          : "";
       return `<article class="insight-card ${item.kind}">
         <span class="tag">${tag}</span>
         <h3>${item.title}</h3>
         <p>${item.body}</p>
+        ${src}
       </article>`;
     }
 
@@ -1292,6 +1297,15 @@
             ? '<span class="muted"> · financovanie v reklamách</span>'
             : '<span class="muted"> · bez 10/90 v reklamách</span>';
           const msgs = (c.key_messages || []).map((m) => `<li>${m}</li>`).join("");
+          const pw = c.product_web;
+          const webBlock = pw
+            ? `<div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border)">
+            <p class="muted" style="margin:0 0 0.35rem;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.04em">Produkt na webe (≠ Meta)</p>
+            ${pw.url ? `<p style="margin:0 0 0.35rem;font-size:0.85rem"><a href="${pw.url}" target="_blank" rel="noopener">${pw.url.replace(/^https?:\\/\\//, "")}</a></p>` : ""}
+            ${pw.note ? `<p class="muted" style="margin:0 0 0.35rem;font-size:0.8rem">${pw.note}</p>` : ""}
+            <ul>${(pw.key_points || []).map((m) => `<li>${m}</li>`).join("")}</ul>
+          </div>`
+            : "";
           const link = links[c.slug]
             ? `<p style="margin:0.75rem 0 0"><a href="${links[c.slug]}" target="_blank" rel="noopener">Otvoriť v Ad Library →</a></p>`
             : "";
@@ -1299,7 +1313,9 @@
             <h3>${c.name} <span class="meta-ads-badge">${c.active_ads_count} reklám</span></h3>
             <p class="meta-angle">${c.developer || ""} · ${c.district || ""}${fin}</p>
             <p class="meta-angle" style="margin-top:0"><strong>${c.primary_angle || ""}</strong></p>
+            <p class="muted" style="margin:0.5rem 0 0.25rem;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.04em">Meta reklamy</p>
             <ul>${msgs}</ul>
+            ${webBlock}
             ${link}
           </article>`;
         })
@@ -1348,7 +1364,8 @@
       });
       lines.push("", "## Riziká pre NUPPU", "");
       (ma.risks || []).forEach((r) => {
-        lines.push(`- **${r.title}** — ${r.body}`);
+        const src = r.source === "product_web" ? " _(zdroj: web, nie Meta)_" : "";
+        lines.push(`- **${r.title}** — ${r.body}${src}`);
       });
       lines.push("", "## Zhrnutie", "");
       (ma.executive_summary || []).forEach((s) => lines.push(`- ${s}`));

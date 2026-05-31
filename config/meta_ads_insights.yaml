@@ -1,12 +1,15 @@
 # Manuálny export Meta Ad Library (SK, aktívne reklamy) — máj 2026
 # Aktualizácia: skopírujte nový paste a upravte počty / texty, potom python -m etl.build_dashboard
+#
+# Metodológia: key_messages = len z Meta reklám. product_web = produktová ponuka na webe
+# (môže byť silnejšia než reklamný messaging — vždy overiť oba zdroje).
 
 source: Meta Ad Library
 country: SK
 active_status: active
-captured_at: "2026-05-19"
+captured_at: "2026-05-31"
 method: manual_paste
-note: "Počty aktívnych reklám z copy-paste exportu; nie oficiálny API export."
+note: "Počty a texty reklám z copy-paste exportu Ad Library. Produktové poznámky (product_web) z verejných stránok developerov."
 
 competitors:
   - slug: slnecnice_viladomy
@@ -51,9 +54,12 @@ competitors:
     financing_in_ads: true
     key_messages:
       - "10 % teraz, zvyšok po kolaudácii jar 2027, kobka v cene"
-      - "Družstevné bývanie (20 % + nájomné, bonus prvých 35)"
+      - "Družstevné bývanie (20 % + nájomné, bonus prvých 35) — Magnolia 5, jar 2027"
       - "Zelený dvor, klubovňa, carshare, smart bývanie"
       - "Investičný byt v Ružinove — samostatné kampane"
+    product_web:
+      url: https://www.yit.sk/predaj-bytov/bratislava/ruzinov/nuppu
+      note: "Družstevné viazané na novostavbu Magnolia 5; hotový sklad = ZWIRN 3 (bez družstevného v reklamách)."
 
   - slug: bory
     name: Bory
@@ -61,22 +67,28 @@ competitors:
     active_ads_count: 19
     district: Petržalka
     focus: false
-    primary_angle: "Štvrť + 10/90 + družstevné (nové máj 2026)"
+    primary_angle: "Nádvorie (novostavba) + 10/90; družstevné len predregistrácia v Meta"
     themes:
       - financovanie_10_90
-      - druzstevne
+      - druzstevne_predregistracia
       - infra_stvrte
-      - hotove_byty
     products_in_ads:
-      - Bory Nádvorie
-      - Bory Na Hrádzi
+      - Bory Nádvorie (nová etapa)
     financing_in_ads: true
     key_messages:
       - "10/90 + hypotekárny špecialista (Nádvorie)"
-      - "Mall, nemocnica, Hrádza, škôlka pri dome"
-      - "VR prehliadka skolaudovaných bytov (Na Hrádzi)"
-      - "Bory Družstevné Bývanie — predregistrácia (máj 2026)"
+      - "Infra: Mall, nemocnica, Hrádza, škôlka pri dome"
+      - "VR / virtuálna prehliadka (Nádvorie — novostavba, nie skolaudované)"
+      - "Bory Družstevné — predregistrácia, bez zmienky Na Hrádzi / skolaudovaných"
       - "UA kreatívy pre zahraničných klientov"
+    product_web:
+      url: https://borybyvanie.sk/druzstevne-byvanie
+      captured_at: "2026-05-31"
+      note: "Produktová ponuka mimo Meta — v reklamách zatiaľ nepropagovaná."
+      key_points:
+        - "Družstevné bývanie v dokončenej etape Na Hrádzi, dom B2 (skolaudované 2024)"
+        - "20 % pri podpise + mesačné splátky, bez klasickej hypotéky"
+        - "Predregistrácia na webe; spustenie ešte nie v plnej reklamnej komunikácii"
 
   - slug: green_atrium
     name: Green Atrium
@@ -102,15 +114,19 @@ market_clusters:
   - id: financing_war
     label: Finančná vojna
     players: [nuppu, bory]
-    description: "10/90 a družstevné — spoločný trhový jazyk máj 2026"
+    description: "10/90 a družstevné (aspoň predregistrácia u Bory) — spoločný trhový jazyk 2026"
   - id: ready_stock
     label: Hotový sklad / exit
-    players: [green_atrium, bory]
-    description: "Bývajte teraz, skolaudované, posledné byty, konkrétne € benefity"
+    players: [green_atrium]
+    description: "Bývajte teraz, skolaudované, posledné byty, konkrétne € benefity (Meta reklamy)"
   - id: district_brand
     label: Štvrť a značka
     players: [slnecnice_viladomy, bory]
     description: "Celá štvrť, infra, komunita, retail, eventy"
+  - id: product_web_gap
+    label: Produkt vs reklama (web ≠ Meta)
+    players: [bory]
+    description: "Družstevné na skolaudovaných Na Hrádzi je na webe; v aktívnych Meta reklamách zatiaľ nie"
 
 opportunities:
   - title: "Jediný silný hráč financovania v Ružinove"
@@ -123,23 +139,27 @@ opportunities:
     body: "Voči Slnečniciam (viladomy + veže) ponúka NUPPU 1–4 izby, investíciu, družstevné aj rodinný segment v Ružinove."
   - title: "Merateľné benefity"
     body: "Kobka v cene, štandard bez doplatkov, bonus prvých 35 pri družstevnom — konkrétnejšie než „uvádzacie ceny“ Slnečnic."
+  - title: "Bory ešte nepredáva web USP v Meta"
+    body: "Družstevné na skolaudovaných Na Hrádzi je len na webe; v reklamách zatiaľ generická predregistrácia. NUPPU môže ešte vlastniť družstevný narrative v feede."
 
 risks:
   - title: "Slnečnice — najvyšší share of voice"
     body: "56 aktívnych reklám vs 38 NUPPU. CRESCO tlačí celú značku (Nad mestom + viladomy + retail), nie len jeden projekt z demo."
   - title: "Tlak „bývajte teraz“"
-    body: "Green Atrium, Bory Na Hrádzi a Slnečnice Nad mestom („dokončenie tento rok“) berú kupujúcich neochotných čakať do jar 2027."
+    body: "Green Atrium a Slnečnice Nad mestom berú kupujúcich neochotných čakať do jar 2027. Bory v Meta tlačí skôr novú etapu Nádvorie, nie hotový sklad."
   - title: "Financovanie je komodita"
-    body: "10/90 + družstevné už komunikujú YIT aj Bory — bez ďalšieho diferenciátora sa NUPPU stráca v feede."
+    body: "10/90 a družstevné (aspoň predregistrácia) komunikujú YIT aj Bory v Meta — bez ďalšieho diferenciátora sa NUPPU stráca v feede."
   - title: "Dva fronty: Ružinov + Petržalka"
     body: "Priamy súper GA v Ružinove; Slnečnice a Bory v Petržalke — sales potrebuje dva kontrastné pitchy."
-  - title: "Bory družstevné na skolaudovaných"
-    body: "Psychologicky silnejšie pre časť trhu než čakanie na kolaudáciu 2027 — najmä pri porovnaní s NUPPU."
+  - title: "Bory družstevné na skolaudovaných (web, nie Meta)"
+    source: product_web
+    body: "Na borybyvanie.sk/druzstevne-byvanie ponúkajú družstevné v dokončenej etape Na Hrádzi B2 (2024). V aktívnych reklamách zatiaľ len predregistrácia bez tohto USP — ak to začnú tlačiť, bude to silnejší kontrast voči NUPPU Magnolia 2027."
 
 executive_summary:
   - "Slnečnice vedú počtom aktívnych reklám (56), pred YIT/NUPPU (38), Bory (19) a Green Atrium (12)."
-  - "Trh sa delí na financovanie (YIT + Bory), hotový sklad (GA + časť Bory/Slnečnic) a štvrť+značka (Slnečnice)."
+  - "Trh sa delí na financovanie (YIT + Bory v Meta), hotový sklad (GA, Slnečnice) a štvrť+značka (Slnečnice, Bory)."
   - "NUPPU je najsilnejší v Ružinove s financovaním a novou etapou; zraniteľný voči „bývajte teraz“ a celkovému SOV Slnečnic."
+  - "Bory: produkt na webe (družstevné + Na Hrádzi skolaudované) je silnejší než aktuálna Meta komunikácia — sledovať, či to pôjde do reklám."
 
 ad_library_links:
   slnecnice_viladomy: "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=SK&media_type=all&q=Slne%C4%8Dnice&search_type=keyword_unordered"
