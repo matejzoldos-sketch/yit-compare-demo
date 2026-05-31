@@ -1301,7 +1301,7 @@
           const webBlock = pw
             ? `<div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border)">
             <p class="muted" style="margin:0 0 0.35rem;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.04em">Produkt na webe (≠ Meta)</p>
-            ${pw.url ? `<p style="margin:0 0 0.35rem;font-size:0.85rem"><a href="${pw.url}" target="_blank" rel="noopener">${pw.url.replace(/^https?:\\/\\//, "")}</a></p>` : ""}
+            ${pw.url ? `<p style="margin:0 0 0.35rem;font-size:0.85rem"><a href="${pw.url}" target="_blank" rel="noopener">${pw.url.replace(/^https?:\/\//, "")}</a></p>` : ""}
             ${pw.note ? `<p class="muted" style="margin:0 0 0.35rem;font-size:0.8rem">${pw.note}</p>` : ""}
             <ul>${(pw.key_points || []).map((m) => `<li>${m}</li>`).join("")}</ul>
           </div>`
