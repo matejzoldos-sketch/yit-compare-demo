@@ -23,7 +23,7 @@ Zdroje:
 ## Inštalácia
 
 ```bash
-cd yit   # alebo clone yit-compare-demo
+cd yit-compare-demo
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
